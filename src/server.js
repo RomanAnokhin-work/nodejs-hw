@@ -25,11 +25,6 @@ app.use(
   }),
 );
 
-app.use((req, res, next) => {
-  console.log(`Time: ${new Date().toLocaleString()}`);
-  next();
-});
-
 app.get('/notes', (req, res) => {
   res.status(200).json({
     message: 'Retrieved all notes',
