@@ -7,7 +7,7 @@ export const getAllNotes = async (req, res) => {
   const skip = (page - 1) * perPage;
 
 
-  const notesQuery = Note.find({ userId: req.userId });
+  const notesQuery = Note.find({ userId: req.user._id });
 
   if (tag) {
     notesQuery.where('tag').equals(tag);
@@ -32,11 +32,11 @@ export const getAllNotes = async (req, res) => {
   });
 };
 
-export const getNoteById = async (req, res) => {
+export const getNoteById = async (req, res, next) => {
   const { noteId } = req.params;
-  const note = await Note.findById({
+  const note = await Note.findOne({
     _id: noteId,
-    userId: req.userId,
+    userId: req.user._id,
   });
 
   if (!note) {
@@ -46,15 +46,15 @@ export const getNoteById = async (req, res) => {
   res.status(200).json(note);
 };
 
-export const createNote = async (req, res) => {
+export const createNote = async (req, res, next) => {
   const note = await Note.create({
     ...req.body,
-    userId: req.userId,
+    userId: req.user._id,
   });
   res.status(201).json(note);
 };
 
-export const deleteNote = async (req, res) => {
+export const deleteNote = async (req, res, next) => {
   const { noteId } = req.params;
   const note = await Note.findOneAndDelete(
     {
@@ -71,7 +71,7 @@ export const deleteNote = async (req, res) => {
   res.status(200).json(note);
 };
 
-export const updateNote = async (req, res) => {
+export const updateNote = async (req, res, next) => {
   const { noteId } = req.params;
   const note = await Note.findOneAndUpdate(
     { _id: noteId, userId: req.user._id },
