@@ -17,8 +17,16 @@ const app = express();
 const PORT = process.env.PORT ?? 3000;
 
 app.use(logger);
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://09-auth-liard-omega.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
-app.use(cors());
 app.use(cookieParser());
 
 app.use(authRoutes);
