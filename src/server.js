@@ -11,6 +11,7 @@ import { errorHandler } from './middleware/errorHandler.js';
 import { logger } from './middleware/logger.js';
 import notesRouter from './routes/notesRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import userRouter from './routes/userRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
@@ -22,6 +23,7 @@ app.use(cookieParser());
 
 app.use(authRoutes);
 app.use(notesRouter);
+app.use(userRouter);
 
 
 app.use(notFoundHandler);
